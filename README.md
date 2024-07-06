@@ -1,4 +1,4 @@
-# ATmega32-CompleteSuite
+# ATmega32 CompleteSuite
 ![image](https://github.com/IEEE-Tanta-SB/ATmega32-CompleteSuite/assets/174888441/a562623b-c1ba-4ec3-916b-456c17706c27)
 
 Explore projects and code examples for the ATmega32 microcontroller.
