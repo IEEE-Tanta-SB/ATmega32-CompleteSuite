@@ -15,14 +15,15 @@ Explore projects and code examples for the ATmega32 microcontroller.
 - AVR-GCC
 - Make
 - avrdude (for flashing the microcontroller)
+- Eclipse IDE (preferred)
 
-### Directory Structure
-#### ATmega32 Drivers
-- `src/`: contains module.c and module.h
-- `Common/`: types of target and common useful macros
-- `Unit Testing/`: unit testing for the module
-- `Examples/`: simulation of the target with a good example explaining the operation of the APIs
-- `Debug/`: contains .elf file to be flashed
+### Directory Structure (Open the repo as workspace in Eclipse)
+- `0_DOCs/`
+- `1_MCAL/`
+- `2_HAL/`
+- `3_APP/`
+- `4_Common/`
+- `main/`
 
 ### Setting Up the Development Environment
 1. Install AVR-GCC:
