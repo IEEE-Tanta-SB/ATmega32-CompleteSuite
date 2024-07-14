@@ -43,7 +43,7 @@ void ADC_INIT(ADC_Config_t* ADC_CFG)
 	// 6: select start conversion
 	if(ADC_CFG->ADC_Mode == ADC_Mode_free_running_mode)
 	{
-		SET_func(ADCSRA , ADSC);
+		SET_BIT(ADCSRA , ADSC);
 	}
 
 }
@@ -51,4 +51,44 @@ void ADC_INIT(ADC_Config_t* ADC_CFG)
 void ADC_DEINIT(void){
 	ADMUX =  0x00;
 	ADCSRA = 0x00;
+}
+
+void ADC_Read_Channel(channel_select_t* channel , uint16_t* result ,Polling_Mechanism_t* polling ){
+	// clear selected channel to select another channel
+	CLEAR_BIT(ADMUX , MUX0);
+	CLEAR_BIT(ADMUX , MUX1);
+	CLEAR_BIT(ADMUX , MUX2);
+	CLEAR_BIT(ADMUX , MUX3);
+	CLEAR_BIT(ADMUX , MUX4);
+
+	//1: select channel
+	ADMUX |= ((uint8_t)channel << MUX0);
+
+	//2: make pin as an input
+	CLEAR_BIT(DDRA , channel);
+
+	//3: start conversion
+	if (G_ADC_cfg->ADC_Mode == ADC_Mode_single_conversion)
+	{
+		SET_BIT(ADCSRA , ADSC);
+	}
+
+	//4: wait until ADC conversion complete
+	if (polling == polling_enable)
+	{
+		while (!READ_BIT(ADCSRA , ADIF));
+		//5: read conversion result
+		if (G_ADC_cfg->ADC_Result_Presentation == ADC_Result_Presentation_Left)
+		{
+			*result =(((ADCL & 0XC0) >> 6 ) | (ADCH << 2)) ;
+		}else if (G_ADC_cfg->ADC_Result_Presentation == ADC_Result_Presentation_Right)
+		{
+			*result =(ADCL | ((ADCH & 0x03) << 8)) ;
+		}
+	}
+	//6: clear ADIF flag
+	CLEAR_BIT(ADCSRA , ADIF);
+
+
+
 }
