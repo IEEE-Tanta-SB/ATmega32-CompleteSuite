@@ -27,8 +27,8 @@
  * =============================================
  */
 
-#include "atmega32_memoryMap.h"
-#include "bitwise.h"
+#include "Platform_MemoryMap.h"
+#include "Common_Macros.h"
 #include "Platform_Types.h"
 #include <util/delay.h>
 #include "avr/interrupt.h"
