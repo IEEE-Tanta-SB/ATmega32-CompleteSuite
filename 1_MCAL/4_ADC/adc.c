@@ -47,3 +47,8 @@ void ADC_INIT(ADC_Config_t* ADC_CFG)
 	}
 
 }
+
+void ADC_DEINIT(void){
+	ADMUX =  0x00;
+	ADCSRA = 0x00;
+}
