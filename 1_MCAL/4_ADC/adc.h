@@ -11,7 +11,7 @@
 /*******************************************
 			 Section :INCLUDES
 *******************************************/
-#include "./../../Common/Platform_Config.h"
+#include "../4_Common/Platform_Config.h"
 
 /**********************************************************************
 			 Section :User Type Definition(Structures)

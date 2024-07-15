@@ -66,10 +66,10 @@ void ADC_Read_Channel(channel_select_t* channel , uint16_t* result ,Polling_Mech
 	ADMUX |= ((uint8_t)channel << MUX0);
 
 	//2: make pin as an input
-	CLEAR_BIT(DDRA , channel);
+	CLEAR_BIT(DDRA , (uint8_t)channel);
 
 	//3: start conversion
-	if (G_ADC_cfg->ADC_Mode == ADC_Mode_single_conversion)
+	if (G_ADC_cfg.ADC_Mode == ADC_Mode_single_conversion)
 	{
 		SET_BIT(ADCSRA , ADSC);
 	}
@@ -79,17 +79,14 @@ void ADC_Read_Channel(channel_select_t* channel , uint16_t* result ,Polling_Mech
 	{
 		while (!READ_BIT(ADCSRA , ADIF));
 		//5: read conversion result
-		if (G_ADC_cfg->ADC_Result_Presentation == ADC_Result_Presentation_Left)
+		if (G_ADC_cfg.ADC_Result_Presentation == ADC_Result_Presentation_Left)
 		{
 			*result =(((ADCL & 0XC0) >> 6 ) | (ADCH << 2)) ;
-		}else if (G_ADC_cfg->ADC_Result_Presentation == ADC_Result_Presentation_Right)
+		}else if (G_ADC_cfg.ADC_Result_Presentation == ADC_Result_Presentation_Right)
 		{
 			*result =(ADCL | ((ADCH & 0x03) << 8)) ;
 		}
 	}
 	//6: clear ADIF flag
 	CLEAR_BIT(ADCSRA , ADIF);
-
-
-
 }
