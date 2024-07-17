@@ -19,3 +19,8 @@ void external_interrupt1_enable()
 {
     SET_BIT(GICR , 7);
 }
+void external_interrupt2_enable()
+{
+    SET_BIT(GICR , 5);
+}
+
