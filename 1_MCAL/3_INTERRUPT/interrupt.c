@@ -11,3 +11,7 @@ void external_interrupts_enable()
 {
     SET_BIT(SREG , 7);
 }
+void external_interrupt0_enable()
+{
+    SET_BIT(GICR , 6);
+}
