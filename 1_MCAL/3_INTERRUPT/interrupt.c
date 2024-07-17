@@ -24,3 +24,64 @@ void external_interrupt2_enable()
     SET_BIT(GICR , 5);
 }
 
+void external_interrupts_configuration(external_interruptConfiguration_t *confg)
+{
+    if (confg->interrupt_channel == INT_0)
+    {
+        if (confg->Sense_control == LOW_LEVEL)
+        {
+            CLEAR_BIT(MCUCR , 0);
+            CLEAR_BIT(MCUCR , 1);
+        }
+        else if (confg->Sense_control == ANY_LOGICAL_CHANGE)
+        {
+            SET_BIT(MCUCR , 0);
+            CLEAR_BIT(MCUCR , 1);
+        }
+        else if (confg->Sense_control == FALLING_EDGE)
+        {
+            CLEAR_BIT(MCUCR , 0);
+            SET_BIT(MCUCR , 1);
+        }
+        else if (confg->Sense_control == RISING_EDGE)
+        {
+            SET_BIT(MCUCR , 0);
+            SET_BIT(MCUCR , 1);
+        }
+
+    }
+    else if (confg->interrupt_channel == INT_1)
+    {
+        if (confg->Sense_control == LOW_LEVEL)
+        {
+            CLEAR_BIT(MCUCR , 2);
+            CLEAR_BIT(MCUCR , 3);
+        }
+        else if (confg->Sense_control == ANY_LOGICAL_CHANGE)
+        {
+            SET_BIT(MCUCR , 2);
+            CLEAR_BIT(MCUCR , 3);
+        }
+        else if (confg->Sense_control == FALLING_EDGE)
+        {
+            CLEAR_BIT(MCUCR , 2);
+            SET_BIT(MCUCR , 3);
+        }
+        else if (confg->Sense_control == RISING_EDGE)
+        {
+            SET_BIT(MCUCR , 2);
+            SET_BIT(MCUCR , 3);
+        }
+    }
+    else if (confg->interrupt_channel == INT_2)
+    {
+        if (confg->Sense_control == FALLING_EDGE)
+        {
+            CLEAR_BIT(MCUCSR , 6);
+        }
+        else if (confg->Sense_control == RISING_EDGE)
+        {
+            SET_BIT(MCUCSR , 6);
+        }
+    }
+}
