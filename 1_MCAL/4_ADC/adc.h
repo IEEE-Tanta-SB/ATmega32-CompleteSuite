@@ -1,9 +1,8 @@
-/*
- * ADC.h
- *
- * Created: 15/7/2023 12:28:34 PM
- *  Author: MAI
- */
+/******************************************************************************
+ * File: adc.h
+ * Description: This is the header file of ADC driver for ATmega32
+ * Author: Mai Farahat
+ ******************************************************************************/
 
 #ifndef ADC_H_
 #define ADC_H_

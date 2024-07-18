@@ -1,9 +1,9 @@
-/*
- * UART.c
- *
- * Created: 14/07/2024 7:52:20 PM
- *  Author: MAI
- */
+/******************************************************************************
+ * File: uart.c
+ * Description: This file contains the implementation of UART driver for ATmega32
+ * Author: Mai Farahat
+ ******************************************************************************/
+
 
 /*******************************************
 			 Section :INCLUDES

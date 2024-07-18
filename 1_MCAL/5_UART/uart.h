@@ -1,10 +1,8 @@
-/*
- * UART.h
- *
- * Created: 14/07/2024 7:52:41 PM
- *  Author: MAI
- */
-
+/******************************************************************************
+ * File: uart.h
+ * Description: This is the header file of UART driver for ATmega32
+ * Author: Mai Farahat
+ ******************************************************************************/
 
 #ifndef UART_H_
 #define UART_H_

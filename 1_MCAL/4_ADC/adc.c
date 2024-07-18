@@ -1,9 +1,8 @@
-/*
- * ADC.c
- *
- * Created: 15/7/2023 12:28:34 PM
- *  Author: MAI
- */
+/******************************************************************************
+ * File: adc.c
+ * Description: This file contains the implementation of ADC driver for ATmega32
+ * Author: Mai Farahat
+ ******************************************************************************/
 
 /*******************************************
 			 Section :INCLUDES

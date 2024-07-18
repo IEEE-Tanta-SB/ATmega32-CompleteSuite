@@ -1,21 +1,21 @@
-/*
- * interrupt.c
- *
- * Created: 7/15/2024 1:16:39 PM
- *  Author: Manal Nabil
- */
+/******************************************************************************
+ * File: interrupt.c
+ * Description: This file contains the implementation of external interrupt driver for ATmega32
+ * Author: Manal Nabil
+ ******************************************************************************/
+
 #include "interrupts.h"
 
 void (*EXTI_CallBack[3]) (void) = { NULL } ;
 
 void Enable_Global_Interrupt           ()
 {
-    SET_BIT(SREG , GLOBAL_INTERRUPT_BIT);
+    SET_BIT(SREG , Global_Interrupt_Enable);
 }
 
 void Disable_Global_Interrupt          ()
 {
-	CLEAR_BIT(SREG , GLOBAL_INTERRUPT_BIT);
+	CLEAR_BIT(SREG , Global_Interrupt_Enable);
 }
 
 void EXTI_EnableInterrupt              (uint8_t Line)

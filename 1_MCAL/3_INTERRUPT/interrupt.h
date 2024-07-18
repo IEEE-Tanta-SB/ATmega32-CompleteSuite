@@ -1,10 +1,8 @@
-/*
- * interrupt.h
- *
- * Created: 7/15/2024 1:16:24 PM
- *  Author: Manal Nabil
- */
-
+/******************************************************************************
+ * File: interrupt.h
+ * Description: This is the header file of external interrupt driver for ATmega32
+ * Author: Manal Nabil
+ ******************************************************************************/
 
 #ifndef INTERRUPT_H_
 #define INTERRUPT_H_
