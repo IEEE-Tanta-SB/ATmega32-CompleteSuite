@@ -128,3 +128,42 @@ void EXTI_voidSetCallBack( void (*Copy_pvoidCallBack)(void) , external_interrupt
 
 }
 
+/* ISR --> Implementation */
+
+void __vector_1(void)
+{
+
+    if( EXTI_CallBack[0] != NULL ){
+
+        EXTI_CallBack[0](); /*  Call The Global Pointer to Func   */
+        external_interrupts_flag_clear( INT_0 );
+
+    }
+
+}
+
+
+void __vector_2(void)
+{
+
+    if( EXTI_CallBack[1] != NULL ){
+
+        EXTI_CallBack[1]();
+        external_interrupts_flag_clear( INT_1 );
+
+    }
+
+}
+
+
+void __vector_3(void)
+{
+
+    if( EXTI_CallBack[2] != NULL ){
+
+        EXTI_CallBack[2]();
+        external_interrupts_flag_clear( INT_2 );
+
+    }
+
+}
