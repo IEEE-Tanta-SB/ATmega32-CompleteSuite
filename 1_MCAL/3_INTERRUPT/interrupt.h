@@ -47,15 +47,14 @@ typedef struct
 				Section :APIS supported by "INTERRUPT driver"
 ******************************************************************/
 
-void external_interrupts_enable();
-void external_interrupt0_enable();
-void external_interrupt1_enable();
-void external_interrupt2_enable();
-void external_interrupts_configuration(external_interruptConfiguration_t *confg);
-void external_interrupts_flag_status(external_interruptConfiguration_t *confg , uint8_t *state);
-void external_interrupts_flag_clear(uint8_t interrupt_channel);
-
-void EXTI_voidSetCallBack( void (*Copy_pvoidCallBack)(void) , external_interruptConfiguration_t *confg );
+void Enable_Global_Interrupt           ();
+void Disable_Global_Interrupt          ();
+void EXTI_EnableInterrupt              (uint8_t Line);
+void EXTI_DisableInterrupt             (uint8_t Line);
+void EXTI_SetSignalLatch               (external_interruptConfiguration_t *confg);
+void EXTI_FlagStatus                   (external_interruptConfiguration_t *confg , uint8_t *state);
+void EXTI_ClearFlag                    (uint8_t interrupt_channel);
+void EXTI_voidSetCallBack              ( void (*Copy_pvoidCallBack)(void) , external_interruptConfiguration_t *confg );
 
 
 #endif /* INTERRUPT_H_ */
