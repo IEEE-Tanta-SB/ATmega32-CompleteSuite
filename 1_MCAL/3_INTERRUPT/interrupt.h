@@ -20,14 +20,22 @@
 
 #define NULL ((void*)0)
 
-#define LOW_LEVEL 0
-#define ANY_LOGICAL_CHANGE 1
-#define FALLING_EDGE 2
-#define RISING_EDGE 3
+#define LOW_LEVEL                 0
+#define ANY_LOGICAL_CHANGE        1
+#define FALLING_EDGE              2
+#define RISING_EDGE               3
 
-#define INT_0 0
-#define INT_1 1
-#define INT_2 2
+#define Global_Interrupt_Enable   7
+#define  ISC00                    0
+#define  ISC01                    1
+#define  ISC10                    2
+#define  ISC11                    3
+#define  ISC2                     6
+
+
+#define INT_0                     0
+#define INT_1                     1
+#define INT_2                     2
 
 void __vector_1(void) __attribute__((signal));
 void __vector_2(void) __attribute__((signal));
@@ -39,8 +47,8 @@ void __vector_3(void) __attribute__((signal));
 
 typedef struct
 {
-    uint8_t interrupt_channel;
-    uint8_t Sense_control;
+	uint8_t interrupt_channel;
+	uint8_t Sense_control;
 }external_interruptConfiguration_t;
 
 /******************************************************************
