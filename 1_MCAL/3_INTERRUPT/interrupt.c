@@ -100,3 +100,20 @@ void external_interrupts_flag_status(external_interruptConfiguration_t *confg , 
         *state = READ_BIT(GIFR , 5);
     }
 }
+void external_interrupts_flag_clear(uint8_t interrupt_channel)
+{
+    if (interrupt_channel == INT_0)
+    {
+        SET_BIT(GIFR , 6);
+    }
+    else if (interrupt_channel == INT_1)
+    {
+        SET_BIT(GIFR , 7);
+    }
+    else if (interrupt_channel == INT_2)
+    {
+        SET_BIT(GIFR , 5);
+    }
+
+}
+
