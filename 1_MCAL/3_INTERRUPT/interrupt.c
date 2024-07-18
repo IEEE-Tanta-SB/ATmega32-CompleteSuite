@@ -85,3 +85,18 @@ void external_interrupts_configuration(external_interruptConfiguration_t *confg)
         }
     }
 }
+void external_interrupts_flag_status(external_interruptConfiguration_t *confg , uint8_t *state)
+{
+    if (confg->interrupt_channel == INT_0)
+    {
+        *state = READ_BIT(GIFR , 6);
+    }
+    else if (confg->interrupt_channel == INT_1)
+    {
+        *state = READ_BIT(GIFR , 7);
+    }
+    else if (confg->interrupt_channel == INT_2)
+    {
+        *state = READ_BIT(GIFR , 5);
+    }
+}
