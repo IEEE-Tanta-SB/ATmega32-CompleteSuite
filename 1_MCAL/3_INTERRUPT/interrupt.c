@@ -7,46 +7,65 @@
 #include "interrupts.h"
 
 void (*EXTI_CallBack[3]) (void) = { NULL } ;
-void external_interrupts_enable()
+
+void Enable_Global_Interrupt           ()
 {
-    SET_BIT(SREG , 7);
-}
-void external_interrupt0_enable()
-{
-    SET_BIT(GICR , 6);
-}
-void external_interrupt1_enable()
-{
-    SET_BIT(GICR , 7);
-}
-void external_interrupt2_enable()
-{
-    SET_BIT(GICR , 5);
+    SET_BIT(SREG , GLOBAL_INTERRUPT_BIT);
 }
 
-void external_interrupts_configuration(external_interruptConfiguration_t *confg)
+void Disable_Global_Interrupt          ()
 {
+	CLEAR_BIT(SREG , GLOBAL_INTERRUPT_BIT);
+}
+
+void EXTI_EnableInterrupt              (uint8_t Line)
+{
+	switch(Line)
+	{
+		case INT_0 : SET_BIT(GICR , 6); break;
+
+		case INT_1 : SET_BIT(GICR , 7); break;
+
+		case INT_2 : SET_BIT(GICR , 5); break;
+	}
+}
+
+void EXTI_DisableInterrupt             (uint8_t Line)
+{
+	switch(Line)
+	{
+		case INT_0 : CLEAR_BIT(GICR , 6); break;
+
+		case INT_1 : CLEAR_BIT(GICR , 7); break;
+
+		case INT_2 : CLEAR_BIT(GICR , 5); break;
+	}
+}
+
+void EXTI_SetSignalLatch               (external_interruptConfiguration_t *confg)
+{
+
     if (confg->interrupt_channel == INT_0)
     {
         if (confg->Sense_control == LOW_LEVEL)
         {
-            CLEAR_BIT(MCUCR , 0);
-            CLEAR_BIT(MCUCR , 1);
+            CLEAR_BIT(MCUCR , ISC00);
+            CLEAR_BIT(MCUCR , ISC01);
         }
         else if (confg->Sense_control == ANY_LOGICAL_CHANGE)
         {
-            SET_BIT(MCUCR , 0);
-            CLEAR_BIT(MCUCR , 1);
+            SET_BIT(MCUCR , ISC00);
+            CLEAR_BIT(MCUCR , ISC01);
         }
         else if (confg->Sense_control == FALLING_EDGE)
         {
-            CLEAR_BIT(MCUCR , 0);
-            SET_BIT(MCUCR , 1);
+            CLEAR_BIT(MCUCR , ISC00);
+            SET_BIT(MCUCR , ISC01);
         }
         else if (confg->Sense_control == RISING_EDGE)
         {
-            SET_BIT(MCUCR , 0);
-            SET_BIT(MCUCR , 1);
+            SET_BIT(MCUCR , ISC00);
+            SET_BIT(MCUCR , ISC01);
         }
 
     }
@@ -54,38 +73,39 @@ void external_interrupts_configuration(external_interruptConfiguration_t *confg)
     {
         if (confg->Sense_control == LOW_LEVEL)
         {
-            CLEAR_BIT(MCUCR , 2);
-            CLEAR_BIT(MCUCR , 3);
+            CLEAR_BIT(MCUCR , ISC10);
+            CLEAR_BIT(MCUCR , ISC11);
         }
         else if (confg->Sense_control == ANY_LOGICAL_CHANGE)
         {
-            SET_BIT(MCUCR , 2);
-            CLEAR_BIT(MCUCR , 3);
+            SET_BIT(MCUCR , ISC10);
+            CLEAR_BIT(MCUCR , ISC11);
         }
         else if (confg->Sense_control == FALLING_EDGE)
         {
-            CLEAR_BIT(MCUCR , 2);
-            SET_BIT(MCUCR , 3);
+            CLEAR_BIT(MCUCR , ISC10);
+            SET_BIT(MCUCR , ISC11);
         }
         else if (confg->Sense_control == RISING_EDGE)
         {
-            SET_BIT(MCUCR , 2);
-            SET_BIT(MCUCR , 3);
+            SET_BIT(MCUCR , ISC10);
+            SET_BIT(MCUCR , ISC11);
         }
     }
     else if (confg->interrupt_channel == INT_2)
     {
         if (confg->Sense_control == FALLING_EDGE)
         {
-            CLEAR_BIT(MCUCSR , 6);
+            CLEAR_BIT(MCUCSR , ISC2);
         }
         else if (confg->Sense_control == RISING_EDGE)
         {
-            SET_BIT(MCUCSR , 6);
+            SET_BIT(MCUCSR , ISC2);
         }
     }
 }
-void external_interrupts_flag_status(external_interruptConfiguration_t *confg , uint8_t *state)
+
+void EXTI_FlagStatus                   (external_interruptConfiguration_t *confg , uint8_t *state)
 {
     if (confg->interrupt_channel == INT_0)
     {
@@ -100,7 +120,8 @@ void external_interrupts_flag_status(external_interruptConfiguration_t *confg , 
         *state = READ_BIT(GIFR , 5);
     }
 }
-void external_interrupts_flag_clear(uint8_t interrupt_channel)
+
+void EXTI_ClearFlag                    (uint8_t interrupt_channel)
 {
     if (interrupt_channel == INT_0)
     {
@@ -117,7 +138,7 @@ void external_interrupts_flag_clear(uint8_t interrupt_channel)
 
 }
 
-void EXTI_voidSetCallBack( void (*Copy_pvoidCallBack)(void) , external_interruptConfiguration_t *confg )
+void EXTI_voidSetCallBack              ( void (*Copy_pvoidCallBack)(void) , external_interruptConfiguration_t *confg )
 {
 
     if( Copy_pvoidCallBack != NULL ){
@@ -135,8 +156,8 @@ void __vector_1(void)
 
     if( EXTI_CallBack[0] != NULL ){
 
-        EXTI_CallBack[0](); /*  Call The Global Pointer to Func   */
-        external_interrupts_flag_clear( INT_0 );
+        EXTI_CallBack[0]();
+        EXTI_ClearFlag( INT_0 );
 
     }
 
@@ -149,7 +170,7 @@ void __vector_2(void)
     if( EXTI_CallBack[1] != NULL ){
 
         EXTI_CallBack[1]();
-        external_interrupts_flag_clear( INT_1 );
+        EXTI_ClearFlag( INT_1 );
 
     }
 
@@ -162,7 +183,7 @@ void __vector_3(void)
     if( EXTI_CallBack[2] != NULL ){
 
         EXTI_CallBack[2]();
-        external_interrupts_flag_clear( INT_2 );
+        EXTI_ClearFlag( INT_2 );
 
     }
 
