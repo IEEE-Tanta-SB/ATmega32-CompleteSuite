@@ -117,3 +117,14 @@ void external_interrupts_flag_clear(uint8_t interrupt_channel)
 
 }
 
+void EXTI_voidSetCallBack( void (*Copy_pvoidCallBack)(void) , external_interruptConfiguration_t *confg )
+{
+
+    if( Copy_pvoidCallBack != NULL ){
+
+        EXTI_CallBack[confg->interrupt_channel] = Copy_pvoidCallBack ;
+
+    }
+
+}
+
