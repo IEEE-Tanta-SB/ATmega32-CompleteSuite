@@ -226,6 +226,29 @@ void GPIO_writePort(uint8_t port_num, uint8_t value) {
  * @return The current value of the port.
  */
 uint8_t GPIO_readPort(uint8_t port_num) {
-	// Function implementation goes here
-	return 0; // Placeholder return value
+    volatile uint8_t *pin_reg = NULL;
+    uint8_t portValue = 0;
+
+    /* Determine the PIN register based on the port number */
+    switch (port_num) {
+        case PORTA_ID:
+            pin_reg = &PINA;
+            break;
+        case PORTB_ID:
+            pin_reg = &PINB;
+            break;
+        case PORTC_ID:
+            pin_reg = &PINC;
+            break;
+        case PORTD_ID:
+            pin_reg = &PIND;
+            break;
+        default:
+            return portValue; /* Invalid port number, return default value */
+    }
+
+    /* Read the value from the PIN register */
+    portValue = *pin_reg;
+
+    return portValue;
 }
