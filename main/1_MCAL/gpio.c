@@ -75,7 +75,40 @@ void GPIO_setupPinDirection(uint8_t port_num, uint8_t pin_num,
  * @param[in] value The value to be written to the pin (high or low).
  */
 void GPIO_writePin(uint8_t port_num, uint8_t pin_num, uint8_t value) {
-	// Function implementation goes here
+
+    volatile uint8_t *port_reg = NULL;
+
+    /* Check if the pin number and port number are within valid range */
+    if ((pin_num >= NUM_OF_PINS_PER_PORT) || (port_num >= NUM_OF_PORTS)) {
+        /* Invalid pin or port number, do nothing */
+        return;
+    }
+
+    /* Determine the PORT register based on the port number */
+    switch (port_num) {
+        case PORTA_ID:
+            port_reg = &PORTA;
+            break;
+        case PORTB_ID:
+            port_reg = &PORTB;
+            break;
+        case PORTC_ID:
+            port_reg = &PORTC;
+            break;
+        case PORTD_ID:
+            port_reg = &PORTD;
+            break;
+        default:
+            return; /* Invalid port number, do nothing */
+    }
+
+    /* Set or clear the bit in the PORT register based on the value */
+    if (value) {
+        SET_BIT(*port_reg, pin_num);
+    } else {
+        CLEAR_BIT(*port_reg, pin_num);
+    }
+
 }
 
 /**
