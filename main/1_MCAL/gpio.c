@@ -161,7 +161,29 @@ uint8_t GPIO_readPin(uint8_t port_num, uint8_t pin_num) {
  * @param[in] direction The direction to be set for the port (input or output).
  */
 void GPIO_setupPortDirection(uint8_t port_num, GPIO_PortDirectionType direction) {
-	// Function implementation goes here
+
+    volatile uint8_t *ddr_reg = NULL;
+
+    /* Determine the DDR register based on the port number */
+    switch (port_num) {
+        case PORTA_ID:
+            ddr_reg = &DDRA;
+            break;
+        case PORTB_ID:
+            ddr_reg = &DDRB;
+            break;
+        case PORTC_ID:
+            ddr_reg = &DDRC;
+            break;
+        case PORTD_ID:
+            ddr_reg = &DDRD;
+            break;
+        default:
+            return; /* Invalid port number, do nothing */
+    }
+
+    /* Set the direction for the port */
+    *ddr_reg = direction;
 }
 
 /**
