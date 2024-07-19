@@ -120,8 +120,38 @@ void GPIO_writePin(uint8_t port_num, uint8_t pin_num, uint8_t value) {
  * @return The current value of the pin (high or low).
  */
 uint8_t GPIO_readPin(uint8_t port_num, uint8_t pin_num) {
-	// Function implementation goes here
-	return 0; // Placeholder return value
+
+	volatile uint8_t *pin_reg = NULL;
+	uint8_t pinValue = LOGIC_LOW;
+
+	/* Check if the pin number and port number are within valid range */
+	if ((pin_num >= NUM_OF_PINS_PER_PORT) || (port_num >= NUM_OF_PORTS)) {
+		/* Invalid pin or port number, return LOGIC_LOW */
+		return pinValue;
+	}
+
+	/* Determine the PIN register based on the port number */
+	switch (port_num) {
+	case PORTA_ID:
+		pin_reg = &PINA;
+		break;
+	case PORTB_ID:
+		pin_reg = &PINB;
+		break;
+	case PORTC_ID:
+		pin_reg = &PINC;
+		break;
+	case PORTD_ID:
+		pin_reg = &PIND;
+		break;
+	default:
+		return pinValue; /* Invalid port number, return LOGIC_LOW */
+	}
+
+	/* Read the value of the pin from the PIN register */
+	pinValue = GET_BIT(*pin_reg, pin_num);
+
+	return pinValue;
 }
 
 /**
