@@ -193,7 +193,29 @@ void GPIO_setupPortDirection(uint8_t port_num, GPIO_PortDirectionType direction)
  * @param[in] value The value to be written to the port.
  */
 void GPIO_writePort(uint8_t port_num, uint8_t value) {
-	// Function implementation goes here
+
+    volatile uint8_t *port_reg = NULL;
+
+    /* Determine the PORT register based on the port number */
+    switch (port_num) {
+        case PORTA_ID:
+            port_reg = &PORTA;
+            break;
+        case PORTB_ID:
+            port_reg = &PORTB;
+            break;
+        case PORTC_ID:
+            port_reg = &PORTC;
+            break;
+        case PORTD_ID:
+            port_reg = &PORTD;
+            break;
+        default:
+            return; /* Invalid port number, do nothing */
+    }
+
+    /* Write the value to the PORT register */
+    *port_reg = value;
 }
 
 /**
