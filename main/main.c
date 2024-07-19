@@ -4,6 +4,8 @@
  *              point for the program.
  ******************************************************************************/
 
+#include "1_MCAL/gpio.h"
+
 int main(void) {
 
 	while(1)

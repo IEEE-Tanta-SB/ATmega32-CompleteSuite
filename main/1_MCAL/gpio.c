@@ -24,14 +24,6 @@
 void GPIO_setupPinDirection(uint8_t port_num, uint8_t pin_num,
 		GPIO_PinDirectionType direction) {
 
-	/**
-	 * @brief Configures the direction of a specified pin.
-	 *
-	 * @param[in] port_num The port number to which the pin belongs.
-	 * @param[in] pin_num The pin number to be configured.
-	 * @param[in] direction The direction to be set (input or output).
-	 */
-	void GPIO_setupPinDirection(uint8_t port_num, uint8_t pin_num, GPIO_PinDirectionType direction) {
 	    volatile uint8_t *ddr_reg = NULL;
 
 	    /* Check if the pin number and port number are within valid range */
@@ -65,7 +57,6 @@ void GPIO_setupPinDirection(uint8_t port_num, uint8_t pin_num,
 	        CLEAR_BIT(*ddr_reg, pin_num);
 	    }
 	}
-}
 
 /**
  * @brief Writes a value to a specified pin.
