@@ -64,3 +64,20 @@ void TWI_SlaveInit(uint8_t Address)
 	/*Enable TWI*/
 	SET_BIT(TWCR,TWEN);
 }
+
+/**
+ * @brief Sends a start condition on the TWI bus.
+ *
+ * This function initiates a start condition to signal the beginning of a TWI communication.
+ */
+void TWI_Start(void)
+{
+	/*Send START*/
+	TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != START);
+}
