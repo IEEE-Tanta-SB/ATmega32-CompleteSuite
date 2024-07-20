@@ -42,3 +42,25 @@ void TWI_MasterInit(uint8_t Prescaler)
 	/*Enable TWI*/
 	SET_BIT(TWCR,TWEN);
 }
+
+/**
+ * @brief Initializes the TWI (Two Wire Interface) hardware as a slave.
+ *
+ * This function sets up the TWI hardware in slave mode with the specified address.
+ *
+ * @param[in] Address The address to be assigned to the TWI slave device.
+ */
+void TWI_SlaveInit(uint8_t Address)
+{
+	/*Set Slave Address*/
+	if (Address!=NULL)
+	{
+		TWAR = Address<<1;
+	}
+
+	/*Enable Acknowledge bit*/
+	SET_BIT(TWCR,TWCR_TWEA);
+
+	/*Enable TWI*/
+	SET_BIT(TWCR,TWEN);
+}
