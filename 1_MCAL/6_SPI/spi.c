@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /******************************************************************************
  * File: spi.c
  * Description: This file contains the implementation of UART driver for ATmega32
@@ -60,30 +59,74 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
 {
 	
 	/** 
-      * @brief select ClockPriority.
+      * @brief SET ClockPriority.
 	 */   
 			
-	     if (  clkPriority== SPI_RISING_LEADING_FALLING_TRAILING )
+	     if (  clkPriority == SPI_RISING_LEADING_FALLING_TRAILING )
 					SET_BIT(SPCR, CPOL	);
 		 else if( clkPriority ==   SPI_FALLING_LEADING_RISING_TRAILING)
 					CLEAR_BIT(SPCR, CPOL);
 	     
     /** 
-	  * @brief select ClockPhase
+	  * @brief SET ClockPhase
 	 */   
 
-	     if (  ClkPhase==_SAMPLE_LEADING_SETUP_TRAILING )
-	     					SET_BIT(SPCR, CPOL	);
-	      else if( ClkPhase ==   SPI_FALLING_LEADING_RISING_TRAILING)
-	     					CLEAR_BIT(SPCR, CPOL); 
+	     if (  ClkPhase ==  SPI_SAMPLE_LEADING_SETUP_TRAILING)
+	     					SET_BIT(SPCR, CPHA	);
+	      else if( ClkPhase ==   SPI_SETUP_LEADING_SAMPLE_TRAILING)
+	     					CLEAR_BIT(SPCR, CPHA); 
+	     
+	 /** 
+       * @brief SET ClockRate
+   	 */      
 
-
-
+	   
+	   switch (ClkRate)
+	 
+  {
+	   case SPI_FREQ_DIVIDED_BY_2
+	   CLEAR_BIT(SPCR , SPR0) ;
+	   CLEAR_BIT(SPCR , SPR1) ;
+	   SET_BIT(SPSR , SPI2X) ;
+	   break;
+	   
+	   case SPI_FREQ_DIVIDED_BY_4
+	   CLEAR_BIT(SPCR , SPR0) ;
+	   CLEAR_BIT(SPCR , SPR1) ;
+	   CLEAR_BIT(SPSR , SPI2X) ;
+	   break;
+	   
+	   case SPI_FREQ_DIVIDED_BY_8   
+	   SET_BIT(SPCR , SPR0) ;
+	   CLEAR_BIT(SPCR, SPR1) ;
+	   SET_BIT(SPSR , SPI2X) ;
+	   break;
+	   
+	   case SPI_FREQ_DIVIDED_BY_16
+	   SET_BIT(SPCR , SPR0) ;
+	   CLEAR_BIT(SPCR ,SPR1) ;
+	   CLEAR_BIT(SPSR ,SPI2X) ;
+	   break;
+	   
+	   case SPI_FREQ_DIVIDED_BY_32
+	   CLEAR_BIT(SPCR , SPR0) ;
+	   SET_BIT(SPCR , SPR1) ;
+	   SET_BIT(SPSR , SPI2X) ;
+	   break;
+	   
+	   case SPI_FREQ_DIVIDED_BY_64
+	   CLEAR_BIT(SPCR , SPR0) ;
+	   SET_BIT(SPCR ,   SPR1) ;
+	   CLEAR_BIT(SPSR , SPI2X) ;
+	   break;
+	   
+	   case SPI_FREQ_DIVIDED_BY_128
+	   SET_BIT(SPCR , SPR0) ;
+	   SET_BIT(SPCR , SPR1) ;
+	   CLEAR_BIT(SPSR ,SPI2X) ;
+	   break;    
+	   
+	   
+	   }
+	     		     
 }
-=======
-/******************************************************************************
- * File: spi.c
- * Description: This file contains the implementation of SPI driver for ATmega32
- * Author:
- ******************************************************************************/
->>>>>>> main

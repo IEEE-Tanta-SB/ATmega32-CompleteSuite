@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /******************************************************************************
  * File: spi.h
  * Description: This is the header file of UART driver for ATmega32
@@ -130,16 +129,3 @@ typedef struct
 void SPI_VoidInit(SPI_Enable spi_enable ,SPI_Mode MasterSlaveMode ,SPI_DataOrder dataOrder, SPI_InterruptEnable spi_interruptEnable);
 
 void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, SPI_ClockRate ClkRate);
-
-
-
-
-
-#endif
-=======
-/******************************************************************************
- * File: spi.h
- * Description: This is the header file of SPI driver for ATmega32
- * Author:
- ******************************************************************************/
->>>>>>> main
