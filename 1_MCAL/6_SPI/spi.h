@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /******************************************************************************
  * File: spi.h
  * Description: This is the header file of UART driver for ATmega32
@@ -135,3 +136,10 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
 
 
 #endif
+=======
+/******************************************************************************
+ * File: spi.h
+ * Description: This is the header file of SPI driver for ATmega32
+ * Author:
+ ******************************************************************************/
+>>>>>>> main

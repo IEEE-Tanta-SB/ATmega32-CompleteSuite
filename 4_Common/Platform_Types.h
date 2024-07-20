@@ -1,13 +1,11 @@
-/*
- * Platform_Types.h
- *
- *  Created on: Apr 14, 2023
- *      Author: mohamed belal
- */
+/******************************************************************************
+ * File: Platform_Types.h
+ * Description: Types of Variables
+ * Author: Mohamed Belal
+ ******************************************************************************/
 
 #ifndef PLATFORM_TYPES_H_
 #define PLATFORM_TYPES_H_
-
 
 #ifndef _Bool
 #define _Bool unsigned char
@@ -26,7 +24,6 @@
 #define CPU_BYTE_ORDER                  HIGH_BYTE_FIRST
 
 typedef _Bool                           boolean;
-
 
 typedef unsigned char                   uint8_t;
 typedef unsigned short                  unit16_t;
@@ -47,9 +44,5 @@ typedef volatile signed char            vsint8_t;
 typedef volatile signed short           vsint16_t;
 typedef volatile signed long            vsint32_t;
 typedef volatile signed long long       vsint64_t;
-
-
-
-
 
 #endif /* PLATFORM_TYPES_H_ */

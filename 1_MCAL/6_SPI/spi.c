@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /******************************************************************************
  * File: spi.c
  * Description: This file contains the implementation of UART driver for ATmega32
@@ -79,3 +80,10 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
 
 
 }
+=======
+/******************************************************************************
+ * File: spi.c
+ * Description: This file contains the implementation of SPI driver for ATmega32
+ * Author:
+ ******************************************************************************/
+>>>>>>> main

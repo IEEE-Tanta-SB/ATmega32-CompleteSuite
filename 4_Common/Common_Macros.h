@@ -1,12 +1,7 @@
-/*******************************************************************************
- * Common_Macros.h
- *
+/******************************************************************************
+ * File: Common_Macros.h
  * Description: Commonly used Macros
- *
- * Authors: IEEE-Tanta Student Branch
- *          Hussein El-Shamy
- *
- * Last Update: 24 May 2024
+ * Author: Hussein El-Shamy
  ******************************************************************************/
 
 #ifndef COMMON_MACROS
