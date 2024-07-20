@@ -81,3 +81,21 @@ void TWI_Start(void)
 	/* Check value of TWI Status Register*/
 	while((TWSR & 0xF8) != START);
 }
+
+/**
+ * @brief Sends a repeated start condition on the TWI bus.
+ *
+ * This function initiates a repeated start condition to signal the beginning of a new TWI communication sequence
+ * without releasing the bus.
+ */
+void TWI_RepeatStart(void)
+{
+	/*Send Repeated START*/
+	TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != REPEATED_START);
+}
