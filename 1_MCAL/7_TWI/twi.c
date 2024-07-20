@@ -129,3 +129,25 @@ void TWI_SendSlaveAddWithW(uint8_t Address)
 	/* Check value of TWI Status Register*/
 	while((TWSR & 0xF8) != MT_SLA_W_ACK);
 }
+
+/**
+ * @brief Writes a byte of data to the TWI bus as a master.
+ *
+ * This function sends a single byte of data over the TWI bus to the addressed slave device.
+ *
+ * @param[in] Data The byte of data to send.
+ */
+void TWI_MasterWriteData(uint8_t Data)
+{
+	/*Load DATA into TWDR Register*/
+	TWDR = Data;
+
+	/* start transmission of data*/
+	SET_BIT(TWCR,TWINT);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != MT_DATA_T_ACK);
+}
