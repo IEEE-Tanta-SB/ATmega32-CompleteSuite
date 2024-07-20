@@ -179,3 +179,24 @@ void TWI_SendSlaveAddWithR(uint8_t Address)
 	/* Check value of TWI Status Register*/
     while((TWSR & 0xF8) != MT_SLA_R_ACK);
 }
+
+/**
+ * @brief Reads a byte of data from the TWI bus as a master.
+ *
+ * This function reads a single byte of data from the TWI bus from the addressed slave device.
+ *
+ * @return uint8_t The byte of data received.
+ */
+uint8_t TWI_MasterReadData(void)
+{
+	/*Slave Start transmission of Data*/
+	SET_BIT(TWCR,TWINT);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != MT_DATA_R_ACK);
+
+	return TWDR;
+}
