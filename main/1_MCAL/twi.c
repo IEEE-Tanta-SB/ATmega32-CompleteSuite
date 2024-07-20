@@ -37,7 +37,7 @@ void TWI_MasterInit(uint8_t Prescaler)
 	}
 
 	/*Enable Acknowledge bit*/
-	SET_BIT(TWCR,TWCR_TWEA);
+	SET_BIT(TWCR,TWEA);
 
 	/*Enable TWI*/
 	SET_BIT(TWCR,TWEN);
@@ -59,7 +59,7 @@ void TWI_SlaveInit(uint8_t Address)
 	}
 
 	/*Enable Acknowledge bit*/
-	SET_BIT(TWCR,TWCR_TWEA);
+	SET_BIT(TWCR,TWEA);
 
 	/*Enable TWI*/
 	SET_BIT(TWCR,TWEN);
@@ -254,4 +254,7 @@ uint8_t TWI_SlaveReadData(void)
 void TWI_Stop(void)
 {
 	TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
+
+    /* Wait for STOP condition to be executed on bus */
+    while (TWCR & (1 << TWSTO));
 }
