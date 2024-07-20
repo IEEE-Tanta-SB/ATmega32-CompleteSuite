@@ -99,3 +99,33 @@ void TWI_RepeatStart(void)
 	/* Check value of TWI Status Register*/
 	while((TWSR & 0xF8) != REPEATED_START);
 }
+
+/* Master section */
+
+/**
+ * @brief Sends the slave address with a write request.
+ *
+ * This function sends the specified slave address along with a write request on the TWI bus.
+ *
+ * @param[in] Address The address of the slave device.
+ */
+void TWI_SendSlaveAddWithW(uint8_t Address)
+{
+	/*Send Slave Address*/
+	TWDR = (Address<<1);
+
+	/*Write request*/
+	CLEAR_BIT(TWDR,0);
+
+	/*Clear Start Condition*/
+	CLEAR_BIT(TWCR,TWSTA);
+
+	/* start transmission of address*/
+	SET_BIT(TWCR,TWINT);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != MT_SLA_W_ACK);
+}
