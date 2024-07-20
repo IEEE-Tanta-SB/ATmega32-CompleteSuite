@@ -225,3 +225,23 @@ void TWT_SlaveWriteData(uint8_t Data)
 	while((TWSR & 0xF8) != SLA_W_ACK);
 }
 
+/**
+ * @brief Reads a byte of data from the TWI bus as a slave.
+ *
+ * This function reads a single byte of data from the TWI bus from the master device.
+ *
+ * @return uint8_t The byte of data received.
+ */
+uint8_t TWI_SlaveReadData(void)
+{
+	/*Slave Start Receive Data*/
+	SET_BIT(TWCR,TWINT);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != SLA_R_ACK);
+
+	return TWDR;
+}
