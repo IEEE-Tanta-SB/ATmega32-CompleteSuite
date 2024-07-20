@@ -200,3 +200,28 @@ uint8_t TWI_MasterReadData(void)
 
 	return TWDR;
 }
+
+/* Slave section */
+
+/**
+ * @brief Writes a byte of data to the TWI bus as a slave.
+ *
+ * This function sends a single byte of data over the TWI bus to the master device.
+ *
+ * @param[in] Data The byte of data to send.
+ */
+void TWT_SlaveWriteData(uint8_t Data)
+{
+	/*Load DATA into TWDR Register*/
+	TWDR = Data;
+
+	/* start transmission of data*/
+	SET_BIT(TWCR,TWINT);
+
+	/*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+	while((TWSR & 0xF8) != SLA_W_ACK);
+}
+
