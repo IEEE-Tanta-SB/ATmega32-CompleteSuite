@@ -151,3 +151,31 @@ void TWI_MasterWriteData(uint8_t Data)
 	/* Check value of TWI Status Register*/
 	while((TWSR & 0xF8) != MT_DATA_T_ACK);
 }
+
+/**
+ * @brief Sends the slave address with a read request.
+ *
+ * This function sends the specified slave address along with a read request on the TWI bus.
+ *
+ * @param[in] Address The address of the slave device.
+ */
+void TWI_SendSlaveAddWithR(uint8_t Address)
+{
+	/*Send Slave Address*/
+	TWDR = (Address<<1);
+
+	/*read request*/
+	SET_BIT(TWDR,0);
+
+	/*Clear Start Condition*/
+	CLEAR_BIT(TWCR,TWSTA);
+
+	/* start transmission of data*/
+	SET_BIT(TWCR,TWINT);
+
+    /*Wait for TWINT Flag set*/
+	while (!(TWCR & (1<<TWINT)));
+
+	/* Check value of TWI Status Register*/
+    while((TWSR & 0xF8) != MT_SLA_R_ACK);
+}
