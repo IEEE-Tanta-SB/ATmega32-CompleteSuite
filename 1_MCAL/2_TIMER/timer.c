@@ -101,3 +101,47 @@ void MCAL_Timer0_GetCounterValue(uint8_t* TicksNumber)
     *TicksNumber = TCNT0;
 }
 
+
+
+/*
+ * ===================================
+ * @FN              - MCAL_Timer0_SetCompareValue
+ * @brief           - set compare value
+ * @param [in]      - TicksNumber:  Value to Set in OCR(compare value must not exceed 255).  
+ * @retval          - none
+ * @Note            - none
+ * ===================================
+ * */
+void MCAL_Timer0_SetCompareValue(uint8_t TicksNumber)
+{
+    OCR0 = TicksNumber;
+}
+
+void MCAL_Timer0_PWM_DutyCycle(uint8_t DutyCycle)
+{
+    if(G_Timer0_ConFig.Timer_Mode == Timer0_Mode_PWM_NONINVERTING)
+    {
+        OCR0 = (0xFF*DutyCycle)/100;
+    }else if(G_Timer0_ConFig.Timer_Mode == Timer0_Mode_PWM_INVERTING)
+    {
+        OCR0 = (255- (0xFF*DutyCycle)/100);
+    }
+}
+
+
+
+
+/* ============================================================================ */
+/* ================================== IRQ Handlers ============================ */
+/* ============================================================================ */
+
+ISR(TIMER0_OVF_vect)
+{
+    GP_IRQ_CallBack();
+}
+
+ISR(TIMER0_COMP_vect)
+{
+    GP_IRQ_CallBack();
+}
+
