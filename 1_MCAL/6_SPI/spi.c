@@ -144,11 +144,11 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
 
 
 
-SPI_TimeState SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData)
+SPI_State SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData)
 
 {
 	
-	 SPI_TimeState Local_u8ErrorState = TIMEOUT_STATE ;
+	SPI_State Local_u8ErrorState =OK ;
 	
 	 uint8_t Local_uint32TimeoutCounter = 0 ;
 	  
@@ -164,7 +164,7 @@ SPI_TimeState SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData)
 	  		}
 	  		if (Local_uint32TimeoutCounter == SPI_uint32TIMEOUT)
 	  		{
-	  			Local_u8ErrorState = TIMEOUT_STATE ;
+	  			Local_u8ErrorState = OK ;
 	  		}
 	  		else
 	  		{
@@ -184,6 +184,26 @@ SPI_TimeState SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData)
 
 }
 
+
+SPI_State SPI_BufferTranceiverSynch (uint8_t* Copy_u8TData , uint8_t * Copy_u8RData , uint8_t Copy_u8BufferSize) 
+{
+	SPI_State Local_u8ErrorState = OK ;
+	uint8_t Local_u8Counter = 0 ;
+		if ((Copy_u8TData != NULL) && (Copy_u8RData != NULL))
+		{
+			while (Local_u8Counter < Copy_u8BufferSize)
+			{
+			    SPI_ uint8_tTranceive(Copy_u8TData[Local_u8Counter] , &Copy_u8RData[Local_u8Counter]) ;
+				Local_u8Counter++ ;
+			}
+			
+		}
+			else
+			{
+				Local_u8ErrorState = NOT_OK;
+			}
+			return Local_u8ErrorState ;
+}
 
 
 

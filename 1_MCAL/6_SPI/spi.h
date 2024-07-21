@@ -25,13 +25,13 @@
  ******************************************************************/
 
 /**
- * @brief Enum for Error TimeState.
+ * @brief Enum for Error State.
  */
 
 typedef enum {
-	TIMEOUT_STATE,
-	BUSY_STATE
-} SPI_TimeState;
+	OK,
+	NOT_OK
+} SPI_State;
 
 /**
  * @brief Enum for selecting SPI data orders.
@@ -147,8 +147,9 @@ void SPI_VoidInit(SPI_Enable spi_enable ,SPI_Mode MasterSlaveMode ,SPI_DataOrder
 
 void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, SPI_ClockRate ClkRate);
 
-SPI_TimeState SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
+SPI_State SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
 
+SPI_State SPI_BufferTranceiverSynch (uint8_t* Copy_u8TData , uint8_t * Copy_u8RData , uint8_t Copy_u8BufferSize) ;
 
 
 
