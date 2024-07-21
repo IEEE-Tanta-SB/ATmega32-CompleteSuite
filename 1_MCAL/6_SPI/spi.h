@@ -160,7 +160,7 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
  * @return SPI_State      The status of the SPI transmission.
  */
 
-SPI_State SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
+SPI_State SPI_uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
 
 /**
  * @brief Synchronously transmits and receives a buffer of data via SPI.
