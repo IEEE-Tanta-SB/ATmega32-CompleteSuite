@@ -10,8 +10,8 @@
 /* ========================================================================================= */
 /* ======================================= Includes ======================================== */
 /* ========================================================================================= */
-#include "./../../utils/Atmeg32_Config.h"
-#include "./../../MCAL/DIO.h"
+#include "../4_Common/Platform_Config.h"
+#include "../1_MCAL/gpio.h"
 
 
 /* ========================================================================================= */
@@ -85,13 +85,13 @@ typedef struct
 /* ========================================================================================= */
 /* ========================= APIs Supported by "MCAL Timer0 DRIVER" ======================== */
 /* ========================================================================================= */
-void MCAL_Timer0_Init(TIMER0_Config_t* timer0_cfg);
-void MCAL_Timer0_DeInit(void);
+void Timer0_Init(TIMER0_Config_t* timer0_cfg);
+void Timer0_DeInit(void);
 
-void MCAL_Timer0_GetCounterValue(uint8_t* TicksNumber);
-void MCAL_Timer0_SetCompareValue(uint8_t TicksNumber);
+void Timer0_GetCounterValue(uint8_t* TicksNumber);
+void Timer0_SetCompareValue(uint8_t TicksNumber);
 
-void MCAL_Timer0_PWM_DutyCycle(uint8_t DutyCycle);
+void Timer0_PWM_DutyCycle(uint8_t DutyCycle);
 
 
 

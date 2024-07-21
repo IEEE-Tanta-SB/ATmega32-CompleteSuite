@@ -8,20 +8,16 @@
 /* ============================================================================ */
 #include "Timer.h"
 
-
 /* ============================================================================ */
 /* ===========================  Global Variables ============================== */
 /* ============================================================================ */
 
 void (*GP_IRQ_CallBack)(void) = 0;
 
-
 TIMER0_Config_t G_Timer0_ConFig;
 /* ============================================================================ */
-/* ==================== APIs Supported by "MCAL timer DRIVER" =================== */
+/* ==================== APIs Supported by "MCAL timer DRIVER" ==================*/
 /* ============================================================================ */
-
-
 
 /*
  * ===================================
@@ -32,7 +28,7 @@ TIMER0_Config_t G_Timer0_ConFig;
  * @Note            - Supported for TIMER0 ONLY
  * ===================================
  * */
-void MCAL_Timer0_Init(TIMER0_Config_t* timer0_cfg)
+void Timer0_Init(TIMER0_Config_t* timer0_cfg)
 {
     G_Timer0_ConFig = *timer0_cfg;
 
@@ -54,7 +50,7 @@ void MCAL_Timer0_Init(TIMER0_Config_t* timer0_cfg)
         )
     {
         // configure T0 (PB0) as INPUT
-        DIO_SetPinDirection(DIO_PORTB,DIO_PIN0 , DIO_PIN_INPUT);
+        GPIO_setupPinDirection(PORTB_ID,PIN0_ID,PIN_OUTPUT);
     }
 
     // 3. select IRQ_Enable
@@ -79,7 +75,7 @@ void MCAL_Timer0_Init(TIMER0_Config_t* timer0_cfg)
  * @Note            - none
  * ===================================
  * */
-void MCAL_Timer0_DeInit(void)
+void Timer0_DeInit(void)
 {
     TCCR0 &= ~((1<<CS00) | (1<<CS01) | (1<<CS02));
 }
@@ -96,7 +92,7 @@ void MCAL_Timer0_DeInit(void)
  * @Note            - none
  * ===================================
  * */
-void MCAL_Timer0_GetCounterValue(uint8_t* TicksNumber)
+void Timer0_GetCounterValue(uint8_t* TicksNumber)
 {
     *TicksNumber = TCNT0;
 }
@@ -112,12 +108,12 @@ void MCAL_Timer0_GetCounterValue(uint8_t* TicksNumber)
  * @Note            - none
  * ===================================
  * */
-void MCAL_Timer0_SetCompareValue(uint8_t TicksNumber)
+void Timer0_SetCompareValue(uint8_t TicksNumber)
 {
     OCR0 = TicksNumber;
 }
 
-void MCAL_Timer0_PWM_DutyCycle(uint8_t DutyCycle)
+void Timer0_PWM_DutyCycle(uint8_t DutyCycle)
 {
     if(G_Timer0_ConFig.Timer_Mode == Timer0_Mode_PWM_NONINVERTING)
     {
@@ -127,9 +123,6 @@ void MCAL_Timer0_PWM_DutyCycle(uint8_t DutyCycle)
         OCR0 = (255- (0xFF*DutyCycle)/100);
     }
 }
-
-
-
 
 /* ============================================================================ */
 /* ================================== IRQ Handlers ============================ */
