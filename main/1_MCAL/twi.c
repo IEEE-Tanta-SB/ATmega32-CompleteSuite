@@ -16,24 +16,25 @@
 void TWI_MasterInit(uint8_t Prescaler)
 {
 	/*Set Bit Rate*/
-	TWBR= (uint8_t) (((F_CPU/SCL_Clock)-16) / (2*Prescaler));
+//	TWBR= (uint8_t) (((F_CPU/SCL_Clock)-16) / (2*Prescaler));
+	TWBR= 0x48;
 
 	/*Set Prescaller*/
 	if (Prescaler==PRESCALER_1)
 	{
-		TWSR=0;
+		TWSR = (TWSR & 0xFC) | 0;
 	}
 	else if(Prescaler==PRESCALER_4)
 	{
-		TWSR=1;
+		TWSR= (TWSR & 0xFC) | 1;
 	}
 	else if (Prescaler==PRESCALER_16)
 	{
-		TWSR=2;
+		TWSR= (TWSR & 0xFC) | 2;
 	}
 	else if (Prescaler==PRESCALER_64)
 	{
-		TWSR=3;
+		TWSR= (TWSR & 0xFC) | 3;
 	}
 
 	/*Enable Acknowledge bit*/
@@ -191,9 +192,12 @@ uint8_t TWI_MasterReadData(void)
 {
 	/*Slave Start transmission of Data*/
 	SET_BIT(TWCR,TWINT);
+	SET_BIT(TWCR,TWEA);
+
 
 	/*Wait for TWINT Flag set*/
 	while (!(TWCR & (1<<TWINT)));
+
 
 	/* Check value of TWI Status Register*/
 	while((TWSR & 0xF8) != MT_DATA_R_ACK);
