@@ -4,7 +4,6 @@
  * Author: Nada Ehab
  ******************************************************************************/
 
-
 #ifndef SPI_H_
 #define SPI_H_
 
@@ -182,9 +181,6 @@ SPI_State SPI_BufferTranceiverSynch (uint8_t* Copy_u8TData , uint8_t * Copy_u8RD
  */
 
 SPI_State SPI_u8BufferTranceiverAsynch (SPI_BUFFER * spi_buffer) ;
-
-
-
 
 
 #endif
