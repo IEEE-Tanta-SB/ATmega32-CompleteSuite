@@ -4,16 +4,15 @@
  *              point for the program.
  ******************************************************************************/
 
-#include "1_MCAL/gpio.h"
 
-int main(void) {
+int main(void)
+{
 
-	while(1)
-	{
+    while (1)
+    {
 
-		//infinite loop
 
-	}
+    }
 
-	return 0;
+    return 0;
 }
