@@ -83,3 +83,21 @@ void MCAL_Timer0_DeInit(void)
 {
     TCCR0 &= ~((1<<CS00) | (1<<CS01) | (1<<CS02));
 }
+
+
+
+/*
+ * ===================================
+ * @FN              - MCAL_Timer0_GetCounterValue
+ * @brief           - get conter value
+ * @param [in]      - TicksNumber:  Value to Set in OCR(compare value must not exceed 255).
+ * @retval          - none
+ * @retval          - none
+ * @Note            - none
+ * ===================================
+ * */
+void MCAL_Timer0_GetCounterValue(uint8_t* TicksNumber)
+{
+    *TicksNumber = TCNT0;
+}
+
