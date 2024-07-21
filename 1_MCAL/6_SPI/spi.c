@@ -10,6 +10,13 @@
  *******************************************/
 #include "spi.h"
 
+/*******************************************
+ *       Section: global variables
+ *******************************************/
+
+/*Global flag for the SPI Busy State*/
+
+static SPI_FunState SPIState= IDLE ;
 
 
 
@@ -133,3 +140,51 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
 
 
 }
+
+
+
+
+SPI_TimeState SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData)
+
+{
+	
+	 SPI_TimeState Local_u8ErrorState = TIMEOUT_STATE ;
+	
+	 uint8_t Local_uint32TimeoutCounter = 0 ;
+	  
+	  if (SPI_FunState SPIState == IDLE)
+	  	{
+		  SPI_FunState SPIState = BUSY ;
+
+	  		SPDR = CopyData;
+
+	  		while (((GET_BIT(SPSR ,SPIF)) == 0) && (Local_uint32TimeoutCounter < SPI_uint32TIMEOUT))
+	  		{
+	  			Local_uint32TimeoutCounter++ ;
+	  		}
+	  		if (Local_uint32TimeoutCounter == SPI_uint32TIMEOUT)
+	  		{
+	  			Local_u8ErrorState = TIMEOUT_STATE ;
+	  		}
+	  		else
+	  		{
+	  			* CopyData = SPDR ;
+	  		}
+	  		SPI_FunState SPIState = IDLE ;
+	  	}
+	  	else
+	  	{
+	  		Local_u8ErrorState = BUSY_STATE ;
+	  	}
+
+	  	return Local_u8ErrorState ;
+	  }
+
+
+
+}
+
+
+
+
+

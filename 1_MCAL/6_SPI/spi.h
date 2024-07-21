@@ -25,6 +25,15 @@
  ******************************************************************/
 
 /**
+ * @brief Enum for Error TimeState.
+ */
+
+typedef enum {
+	TIMEOUT_STATE,
+	BUSY_STATE
+} SPI_TimeState;
+
+/**
  * @brief Enum for selecting SPI data orders.
  */
 
@@ -97,6 +106,14 @@ typedef enum {
     SPI_ENABLE
 } SPI_Enable;
 
+/**
+ * @brief Enum for function state.
+ */
+
+typedef enum {
+	 IDLE , BUSY
+} SPI_FunState;
+
 /**********************************************************************
  *           Section : User Type Definition (Structures)
  **********************************************************************/
@@ -130,7 +147,7 @@ void SPI_VoidInit(SPI_Enable spi_enable ,SPI_Mode MasterSlaveMode ,SPI_DataOrder
 
 void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, SPI_ClockRate ClkRate);
 
-
+SPI_TimeState SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
 
 
 
