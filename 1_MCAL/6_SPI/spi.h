@@ -25,6 +25,15 @@
  ******************************************************************/
 
 /**
+ * @brief Enum for Error State.
+ */
+
+typedef enum {
+	OK,
+	NOT_OK
+} SPI_State;
+
+/**
  * @brief Enum for selecting SPI data orders.
  */
 
@@ -97,21 +106,17 @@ typedef enum {
     SPI_ENABLE
 } SPI_Enable;
 
+/**
+ * @brief Enum for function state.
+ */
+
+typedef enum {
+	 IDLE , BUSY
+} SPI_FunState;
+
 /**********************************************************************
  *           Section : User Type Definition (Structures)
  **********************************************************************/
-
-typedef struct
-{
-    SPI_InterruptEnable SPI_u8InterruptEnable;
-    SPI_Enable SPI_u8SPIEnable;
-    SPI_DataOrder SPI_u8DataOrder;
-    SPI_Mode SPI_u8MasterSlaveSelect;
-    SPI_ClockPolarity SPI_u8ClockPolarity;
-    SPI_ClockPhase SPI_u8ClockPhase;
-    SPI_ClockRate SPI_u8ClockRate;
-} SPI_CONFIG;
-
 
 typedef struct
 {
@@ -126,6 +131,60 @@ typedef struct
  *           Section : APIS supported by "SPI driver"
  ******************************************************************/
 
+/**
+ * @brief Initializes the SPI with the specified settings.
+ *
+ * @param[in] spi_enable           Enable or disable the SPI module.
+ * @param[in] MasterSlaveMode      Set the SPI to master or slave mode.
+ * @param[in] dataOrder            Set the data order (MSB first or LSB first).
+ * @param[in] spi_interruptEnable  Enable or disable SPI interrupt.
+ */
 void SPI_VoidInit(SPI_Enable spi_enable ,SPI_Mode MasterSlaveMode ,SPI_DataOrder dataOrder, SPI_InterruptEnable spi_interruptEnable);
 
+/**
+ * @brief Initializes the SPI clock with the specified settings.
+ *
+ * @param[in] clkPriority  Set the clock polarity (idle state of clock line).
+ * @param[in] ClkPhase     Set the clock phase (data sampling on leading or trailing edge).
+ * @param[in] ClkRate      Set the clock rate (speed of SPI clock).
+ */
+
 void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, SPI_ClockRate ClkRate);
+
+
+/**
+ * @brief Transmits and receives a byte of data via SPI.
+ *
+ * @param[in] CopyData    The data byte to be transmitted.
+ * @param[out] CopyData   Pointer to where the received data byte will be stored.
+ *
+ * @return SPI_State      The status of the SPI transmission.
+ */
+
+SPI_State SPI_ uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
+
+/**
+ * @brief Synchronously transmits and receives a buffer of data via SPI.
+ *
+ * @param[in]  Copy_u8TData     Pointer to the buffer of data to be transmitted.
+ * @param[out] Copy_u8RData     Pointer to the buffer where received data will be stored.
+ * @param[in]  Copy_u8BufferSize The size of the buffer (number of bytes to be transmitted/received).
+ */
+
+SPI_State SPI_BufferTranceiverSynch (uint8_t* Copy_u8TData , uint8_t * Copy_u8RData , uint8_t Copy_u8BufferSize) ;
+
+/**
+ * @brief Asynchronously transmits and receives a buffer of data via SPI.
+ *
+ * @param[in] spi_buffer  Pointer to a structure containing the buffer and other relevant settings for asynchronous SPI communication.
+ *
+ * @return SPI_State     The status of the SPI operation.
+ */
+
+SPI_State SPI_u8BufferTranceiverAsynch (SPI_BUFFER * spi_buffer) ;
+
+
+
+
+
+#endif
