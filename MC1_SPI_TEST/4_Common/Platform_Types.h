@@ -7,7 +7,6 @@
 #ifndef PLATFORM_TYPES_H_
 #define PLATFORM_TYPES_H_
 
-
 #ifndef _Bool
 #define _Bool unsigned char
 #endif
@@ -23,6 +22,10 @@
 #define CPU_TYPE                        CPU_TYPE_32
 #define CPU_BIT_ORDER                   MSB_FIRST
 #define CPU_BYTE_ORDER                  HIGH_BYTE_FIRST
+
+#define NULL ((void*)0)
+#define LOGIC_HIGH        (1u)
+#define LOGIC_LOW         (0u)
 
 typedef _Bool                           boolean;
 

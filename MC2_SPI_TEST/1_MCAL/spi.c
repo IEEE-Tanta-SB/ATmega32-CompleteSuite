@@ -8,7 +8,7 @@
  *           Section : INCLUDES
  *******************************************/
 #include "spi.h"
-
+#include <stddef.h>
 /*******************************************
  *       Section: global variables
  *******************************************/
@@ -18,7 +18,7 @@
 static SPI_FunState SPIState = IDLE;
 
 /*Global variable to carry the Transmit Data*/
-static uint8_t *SPI_pu8TData = NULL;
+volatile uint8_t *SPI_pu8TData = 0;
 
 /*Global variable to carry the Receive Data*/
 static uint8_t *SPI_pu8RData = NULL;
@@ -30,14 +30,13 @@ static uint8_t SPI_u8BufferSize;
 static uint8_t SPI_u8Index;
 
 /*Global pointer to function to carry the notification function called by ISR*/
-static void (*SPI_pvNotificationFunc)(void) = NULL;
+volatile void (*SPI_pvNotificationFunc)(void) = NULL;
 
 /*******************************************
  *       Section: Functions Implementation
  *******************************************/
 
-void SPI_VoidInit(SPI_Enable spi_enable, SPI_Mode MasterSlaveMode,
-		SPI_DataOrder dataOrder, SPI_InterruptEnable spi_interruptEnable)
+void SPI_VoidInit(SPI_Enable spi_enable, SPI_Mode MasterSlaveMode,SPI_DataOrder dataOrder, SPI_InterruptEnable spi_interruptEnable)
 
 {
 	/**
@@ -158,14 +157,14 @@ void SPI_CLK_VoidInit(SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase,
 
 //********************************************************************************************************************************
 
-SPI_State SPI_uint8_tTranceive(uint8_t CopyData, uint8_t *CopyData) {
+SPI_State SPI_uint8_tTranceive(uint8_t CopyData, uint8_t *RCopyData) {
 
 	SPI_State Local_u8ErrorState = OK;
 
 	uint8_t Local_uint32TimeoutCounter = 0;
 
 	/* Check if SPI is idle */
-	if (SPI_FunState SPIState == IDLE) {
+	if (SPIState == IDLE) {
 		/* Set SPI state to busy */
 		SPIState = BUSY;
 
@@ -183,7 +182,7 @@ SPI_State SPI_uint8_tTranceive(uint8_t CopyData, uint8_t *CopyData) {
 			Local_u8ErrorState = OK; /* Handle timeout error if needed */
 		} else {
 			/* Retrieve received data from SPI Data Register */
-			*CopyData = SPDR;
+			*RCopyData = SPDR;
 		}
 
 		/* Set SPI state back to idle */
@@ -198,8 +197,8 @@ SPI_State SPI_uint8_tTranceive(uint8_t CopyData, uint8_t *CopyData) {
 
 //********************************************************************************************************************************
 
-SPI_State SPI_BufferTranceiverSynch(uint8_t *Copy_u8TData,
-		uint8_t *Copy_u8RData, uint8_t Copy_u8BufferSize) {
+SPI_State SPI_BufferTranceiverSynch(uint8_t *Copy_u8TData,uint8_t *Copy_u8RData, uint8_t Copy_u8BufferSize)
+{
 	SPI_State Local_u8ErrorState = OK;
 	uint8_t Local_u8Counter = 0;
 	if ((Copy_u8TData != NULL) && (Copy_u8RData != NULL)) {
@@ -222,11 +221,13 @@ SPI_State SPI_u8BufferTranceiverAsynch(SPI_BUFFER *spi_buffer)
 {
 
 	SPI_State Local_u8ErrorState = OK;
-
-	if ( SPI_FunState SPI_u8State == IDLE) {
+	SPI_FunState SPI_u8State;
+	if ( SPI_u8State == IDLE)
+	{
 		if ((spi_buffer != NULL) && (spi_buffer->Copy_u8TData != NULL)
 				&& (spi_buffer->Copy_u8RData != NULL)
-				&& (spi_buffer->NotificationFuncn != NULL)) {
+				&& (spi_buffer->NotificationFuncn != NULL))
+		{
 			/*SPI is now Busy*/
 			SPI_u8State = BUSY;
 
@@ -244,37 +245,45 @@ SPI_State SPI_u8BufferTranceiverAsynch(SPI_BUFFER *spi_buffer)
 
 			/*SPI Interrupt Enable*/
 			SET_BIT(SPCR , SPIE);
-		} else {
+		}
+		else
+		{
 			Local_u8ErrorState = NOT_OK;
 		}
 
-		return Local_u8ErrorState;
+
 	}
+	return Local_u8ErrorState;}
 
 //********************************************************************************************************************************
 	void __vector_12(void) __attribute__ ((signal));
-	void __vector_12(void) {
+	void __vector_12(void)
+	{
 		/*Receive Data*/
 		SPI_pu8RData[SPI_u8Index] = SPDR;
 
 		/*Increment Data index of the buffer*/
 		SPI_u8Index++;
 
-		if (SPI_u8Index == SPI_u8BufferSize) {
+		if (SPI_u8Index == SPI_u8BufferSize)
+		{
 			/*Buffer Complete*/
 
 			/*SPI is now IDLE*/
-			SPI_u8State = IDLE;
+			SPIState = IDLE;
 
 			/*SPI Interrupt Disable*/
-			CLR_BIT(SPCR, SPIE);
+			CLEAR_BIT(SPCR, SPIE);
 
 			/*Call Notification Function*/
 			SPI_pvNotificationFunc();
-		} else {
+		}
+		else {
 			/*Buffer not Complete*/
 
 			/*Transmit next Data*/
 			SPDR = SPI_pu8TData[SPI_u8Index];
 		}
 	}
+
+

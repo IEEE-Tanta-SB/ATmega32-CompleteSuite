@@ -11,13 +11,16 @@
 /*******************************************
  *           Section : INCLUDES
  *******************************************/
-#include "../4_Common/Platform_Config.h"
+#include "../../4_Common/Platform_Config.h"
 
 /******************************************************************
  *           Section : Set Timeout
  ******************************************************************/
 
 #define SPI_uint32TIMEOUT    10000ul
+
+/*Global variable to carry the Transmit Data*/
+extern volatile uint8_t *SPI_pu8TData;
 
 /******************************************************************
  *           Section : Enum Definitions
@@ -125,7 +128,8 @@ typedef struct
     void(*NotificationFuncn)(void);
 }SPI_BUFFER;
 
-
+// Declare the ISR function without static
+void __vector_12(void) __attribute__ ((signal));
 /******************************************************************
  *           Section : APIS supported by "SPI driver"
  ******************************************************************/
@@ -160,7 +164,7 @@ void SPI_CLK_VoidInit (SPI_ClockPolarity clkPriority, SPI_ClockPhase ClkPhase, S
  * @return SPI_State      The status of the SPI transmission.
  */
 
-SPI_State SPI_uint8_tTranceive ( uint8_t CopyData ,  uint8_t * CopyData) ;
+SPI_State SPI_uint8_tTranceive ( uint8_t CopyData ,  uint8_t * RCopyData) ;
 
 /**
  * @brief Synchronously transmits and receives a buffer of data via SPI.
@@ -181,6 +185,8 @@ SPI_State SPI_BufferTranceiverSynch (uint8_t* Copy_u8TData , uint8_t * Copy_u8RD
  */
 
 SPI_State SPI_u8BufferTranceiverAsynch (SPI_BUFFER * spi_buffer) ;
+
+
 
 
 #endif
