@@ -7,6 +7,7 @@
 #ifndef PLATFORM_TYPES_H_
 #define PLATFORM_TYPES_H_
 
+
 #ifndef _Bool
 #define _Bool unsigned char
 #endif
